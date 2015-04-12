@@ -1,0 +1,141 @@
+<html>
+	<head>
+		<title>Ascavis</title>
+		<link href="css/style.css" rel="stylesheet">
+		<meta charset="UTF-8">
+	    <link rel="stylesheet" href="css/ui-darkness/jquery-ui-1.10.4.custom.css">
+		<script type="text/javascript" src="js/libs/jquery-2.1.0.js"></script>
+		<script type="text/javascript" src="js/libs/jquery-migrate-1.2.1.js"></script>
+		<script type="text/javascript" src="js/libs/jquery.timer.js"></script>
+		<script type="text/javascript" src="js/libs/three.min.js"></script>
+		<script type="text/javascript" src="js/libs/OrbitControls.js"></script>
+		<script type="text/javascript" src="js/libs/Projector.js"></script>
+		<script type="text/javascript" src="js/libs/tween.min.js"></script>
+		<script type="text/javascript" src="js/libs/jquery-ui-1.10.4.custom.js"></script>
+		<script type="text/javascript" src="js/model.js"></script>
+		<script type="text/javascript" src="js/data.js"></script>
+		<script type="text/javascript" src="js/planets.js"></script>
+		<script type="text/javascript" src="js/render.js"></script>
+		<script type="text/javascript" src="js/filter.js"></script>
+		<script type="text/javascript" src="js/calculations.js"></script>
+		<link href='http://fonts.googleapis.com/css?family=Ubuntu:300,400,700,700italic' rel='stylesheet' type='text/css'>
+	</head>
+	<body>
+		<script>
+		 $(document).ready(function(){
+			$("#closelink").click(function() {
+				$("#popover").css('visibility','hidden');
+			});
+			
+			$("#moreAsteroids").click(function() {
+				$("#infoscreen").css('visibility','visible');
+			});
+			
+			$("main").click(function(e) {
+			  $("#popover").css('left',e.pageX - $("#popover").width() / 2 );
+			  $("#popover").css('top',e.pageY - $("#popover").height());
+			});
+			
+			
+			$("main").click(function(e) {
+			  $("#popover").css('left',e.pageX - $("#popover").width() / 2 );
+			  $("#popover").css('top',e.pageY - $("#popover").height());
+			});
+			
+			
+		});
+		</script>
+		<div id="main">
+			<img id="solarsystem" src="img/solar system_asteroids_markiert72.png" alt="" usemap="#Map" />
+			<map name="Map" id="Map">
+			    <area alt="" title="" href="#" id="ast1" class="asteroid" shape="poly" coords="418,270,423,264,429,271,422,278" />
+			    <area alt="" title="" href="#" id="ast2" class="asteroid" shape="poly" coords="443,300,448,310,456,305,453,298" />
+			    <area alt="" title="" href="#" id="ast3" class="asteroid" shape="poly" coords="411,377,417,386,427,379,417,376" />
+			    <area alt="" title="" href="#" id="ast4" class="asteroid" shape="poly" coords="490,410,495,414,501,408,495,404" />
+			    <area alt="" title="" href="#" id="ast5" class="asteroid" shape="poly" coords="528,387,535,396,541,388" />
+			    <area alt="" title="" href="#" id="ast6" class="asteroid" shape="poly" coords="568,404,571,409,579,403,571,398" />
+			    <area alt="" title="" href="#"  id="ast7" class="asteroid" shape="poly" coords="607,361,615,368,621,362,615,358" />
+			    <area alt="" title="" href="#"  id="ast8" class="asteroid"  shape="poly" coords="657,418,663,421,669,415,660,410" />
+			    <area alt="" title="" href="#"  id="ast9" class="asteroid"  shape="poly" coords="656,323,661,333,666,330,664,322" />
+			    <area alt="" title="" href="#"  id="ast10" class="asteroid"  shape="poly" coords="679,311,686,319,693,316,686,307" />
+			    <area alt="" title="" href="#" id="ast11" class="asteroid"  shape="poly" coords="668,239,669,245,680,241,667,233" />
+			    <area alt="" title="" href="#"  id="ast12" class="asteroid"  shape="poly" coords="667,207,676,211,685,206,673,201" />
+			    <area alt="" title="" href="#"  id="ast13" class="asteroid" shape="poly" coords="622,204,627,213,637,206,628,198" />
+			    <area alt="" title="" href="#"  id="ast14" class="asteroid"  shape="poly" coords="566,170,567,180,581,173,574,166" />
+			    <area alt="" title="" href="#"  id="ast15" class="asteroid"  shape="poly" coords="479,178,481,181,490,180,485,172" />
+			    <area alt="" title="" href="#"  id="ast16" class="asteroid"  shape="poly" coords="471,203,475,210,485,202,478,199" />
+			</map>
+		</div>
+		
+		<div id="sidebar">
+			<div id="logo">
+				<img src="img/ascavis.png" />
+			</div>
+			<div id="sidemenu">
+				<span class="menutitle">Orbit</span>
+				<ul>
+					<li class="selected"><span>Beispieltext</span></li>
+					<li><span>Beispieltext</span></li>
+				</ul>
+				<span class="menutitle">Material</span>
+				<ul class="selected">
+					<li><span>Beispieltext</span></li>
+					<li><span>Beispieltext</span></li>
+				</ul>
+			</div>
+			<div id="sidefooter">
+				<span class="sidefooter"><a id="moreAsteroids">More about Asteroids</a></span>
+				<span class="sidefooter">About ASCAVIS</span>
+			</div>
+		</div>
+		
+		<div id="popover">
+			<div id="popoverheader">
+				<span id="popovertitle">(21) Lutetia</span>
+				<span id="popversubtitle">Rock/Metal</span>
+				<div id="popoverclose"><a id="closelink"><img id="popovercloseimage" src="img/Close_Icon.png"></a></div>
+			</div>
+			<div id="popovermenu">
+				<div class="popovermenuitem first">
+					<span class="popovermenumain">1.700 ± 0.017×10^18 kg</span>
+					<span class="popoversubmenumain">Mass</span>	
+				</div>
+				<div class="popovermenuitem">
+					<span class="popovermenumain">5.0 ± 0.4×1014 m³</span>
+					<span class="popoversubmenumain">Volume</span>	
+				</div>
+				<div class="popovermenuitem">
+					<span class="popovermenumain">3.064°</span>
+					<span class="popoversubmenumain">Inclination</span>	
+				</div>
+				<div class="popovermenuitem">
+					<span class="popovermenumain">2.435 AU</span>
+					<span class="popoversubmenumain">Semi-major axis</span>	
+				</div>
+				<div class="popovermenuitem last">
+					<span class="popovermenumain">18.96 km/s</span>
+					<span class="popoversubmenumain">Average orbital speed</span>	
+				</div>
+			</div>
+			<div id="popoverfooter">
+				<span>Available Images &raquo;</span>
+			</div>
+		</div>
+		
+		<div id="infoscreen">
+			<div id="infoscreenheader">
+				<span id="title">Want to learn more about asteroids?</span>
+			</div>
+			<div id="infoscreenmain">
+				<div id="infoscreencol1">
+					<div class="infoimg">
+						<img src="/img/infothumbnail1.png" />
+					</div>
+					<div class="infosubtitle">
+						<span>Infographic about Asteroids by Kim Orr</span>
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>

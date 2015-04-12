@@ -1,0 +1,32 @@
+<html>
+	<head>
+		<title>Ascavis</title>
+		<link href="css/style.css" rel="stylesheet">
+	    <link rel="stylesheet" href="css/ui-darkness/jquery-ui-1.10.4.custom.css">
+		<script type="text/javascript" src="js/libs/jquery-2.1.0.js"></script>
+		<script type="text/javascript" src="js/libs/jquery-migrate-1.2.1.js"></script>
+		<script type="text/javascript" src="js/libs/jquery.timer.js"></script>
+		<script type="text/javascript" src="js/libs/three.min.js"></script>
+		<script type="text/javascript" src="js/libs/OrbitControls.js"></script>
+		<script type="text/javascript" src="js/libs/Projector.js"></script>
+		<script type="text/javascript" src="js/libs/tween.min.js"></script>
+		<script type="text/javascript" src="js/libs/jquery-ui-1.10.4.custom.js"></script>
+		<script type="text/javascript" src="js/model.js"></script>
+		<script type="text/javascript" src="js/data.js"></script>
+		<script type="text/javascript" src="js/planets.js"></script>
+		<script type="text/javascript" src="js/render.js"></script>
+		<script type="text/javascript" src="js/filter.js"></script>
+		<script type="text/javascript" src="js/calculations.js"></script>
+	</head>
+	<body>
+		<script>
+			setUpScene();
+			filterSetUp();
+			updateScene();
+			window.setInterval("updateScene", 1000);
+		</script>	
+		<label id="minYear"></label>
+		<label id="maxYear"></label>
+		<div id="slider-range" style="position: fixed; bottom: 20px; left: 50px; z-index: 10;"></div>
+	</body>
+</html>
