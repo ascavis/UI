@@ -31,6 +31,11 @@ body {
 	margin-top: 0;
 }
 
+a {
+	color: #1FD8FF;
+	text-decoration: none;
+}
+
 #main{
 	height: 100%;
 	width: 100%;
@@ -117,8 +122,8 @@ body {
 
 #popover {
 	position: fixed;
-	left: 150px;
-	top: 450px;
+	left: 75px;
+	top: 250px;
 	background-color: #3D3D3D;
 	
 	width: 250px;

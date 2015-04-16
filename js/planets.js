@@ -8,7 +8,7 @@ earthOrbitalElements.ascendingNode = -11.26064;
 earthOrbitalElements.perihelion =  102.94719;
 earthOrbitalElements.inclination = 0.00005;
  
-var earth = new planet('earth', 10000, 0x1fd8ff, earthOrbitalElements);
+var earth = new planet('earth', 6371, 0x1fd8ff, earthOrbitalElements);
 
 
 var marsOrbitalElements = new orbitalElements();
@@ -21,4 +21,4 @@ marsOrbitalElements.ascendingNode = 49.562;
 marsOrbitalElements.perihelion =  286.537;
 marsOrbitalElements.inclination = 5.65;
  
-var mars = new planet('mars', 50000, 0x1fd8ff, marsOrbitalElements);
+var mars = new planet('mars', 3390, 0xff0000, marsOrbitalElements);

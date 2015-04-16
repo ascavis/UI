@@ -22,49 +22,148 @@
 	</head>
 	<body>
 		<script>
-		 $(document).ready(function(){
-			$("#closelink").click(function() {
-				$("#popover").css('visibility','hidden');
-			});
-			
+		 $(document).ready(function(){			
 			$("#moreAsteroids").click(function() {
 				$("#infoscreen").css('visibility','visible');
 			});
 			
-			$("main").click(function(e) {
-			  $("#popover").css('left',e.pageX - $("#popover").width() / 2 );
-			  $("#popover").css('top',e.pageY - $("#popover").height());
+//			$("main").click(function(e) {
+//			  $("#popover").css('left',e.pageX - $("#popover").width() / 2 );
+//			  $("#popover").css('top',e.pageY - $("#popover").height());
+//			});
+			
+//			$("#mainBelt").click(function(e) {
+//			  var mainHtml = "<img id=\"solarsystem\" src=\"img/solar system_asteroids_markiert72.png\" usemap=\"#Map\" />";
+//			  
+//			  $("#main").html(mainHtml);
+//			});
+			
+			$("#ast1").click(function(){
+			   displayAsteroidData(1);
+			});
+			$("#ast2").click(function(){
+			   displayAsteroidData(2);
+			});
+			$("#ast3").click(function(){
+			   displayAsteroidData(3);
+			});
+			$("#ast4").click(function(){
+			   displayAsteroidData(4);
+			});
+			$("#ast5").click(function(){
+			   displayAsteroidData(5);
+			});
+			$("#ast6").click(function(){
+			   displayAsteroidData(6);
+			});
+			$("#ast7").click(function(){
+			   displayAsteroidData(7);
+			});
+			$("#ast8").click(function(){
+			   displayAsteroidData(8);
+			});
+			$("#ast9").click(function(){
+			   displayAsteroidData(9);
+			});
+			$("#ast10").click(function(){
+			   displayAsteroidData(10);
+			});
+			$("#ast11").click(function(){
+			   displayAsteroidData(11);
+			});
+			$("#ast12").click(function(){
+			   displayAsteroidData(12);
+			});
+			$("#ast13").click(function(){
+			   displayAsteroidData(13);
+			});
+			$("#ast14").click(function(){
+			   displayAsteroidData(14);
+			});
+			$("#ast15").click(function(){
+			   displayAsteroidData(15);
+			});
+			$("#ast16").click(function(){
+			   displayAsteroidData(16);
 			});
 			
-			
-			$("main").click(function(e) {
-			  $("#popover").css('left',e.pageX - $("#popover").width() / 2 );
-			  $("#popover").css('top',e.pageY - $("#popover").height());
-			});
-			
-			
+			function displayAsteroidData(id){
+				var jqxhr = $.getJSON( "/mpc/" + id, function() {
+				  console.log( "success" );
+				})
+				  .done(function(data) {
+				  	$("#popover").html(
+				  		"<div id=\"popoverheader\">\n" +
+				  			"<span id=\"popovertitle\">" + data.name + "</span>\n" +
+				  			"<span id=\"popversubtitle\">Taxonomy class " + data.taxonomy_class + "</span>\n" +
+				  			"<div id=\"popoverclose\"><a id=\"closelink\"><img id=\"popovercloseimage\" src=\"img/Close_Icon.png\"></a></div>\n" +
+				  		"</div>\n" +
+				  		"<div id=\"popovermenu\">\n" +
+				  			"<div class=\"popovermenuitem first\">\n" +
+				  				"<span class=\"popovermenumain\">"+ data.observations + "</span>\n" +
+				  				"<span class=\"popoversubmenumain\">Observations</span>	\n" +
+				  			"</div>\n" +
+				  			"<div class=\"popovermenuitem\">\n" +
+				  				"<span class=\"popovermenumain\">" + data.inclination +"</span>\n" +
+				  				"<span class=\"popoversubmenumain\">Inclination</span>	\n" +
+				  			"</div>\n" +
+				  			"<div class=\"popovermenuitem\">\n" +
+				  				"<span class=\"popovermenumain\">" + data.semimajor_axis + " AU</span>\n" +
+				  				"<span class=\"popoversubmenumain\">Semi-major axis</span>	\n" +
+				  			"</div>\n" +
+				  			"<div class=\"popovermenuitem last\">\n" +
+				  				"<span class=\"popovermenumain\">" + data.albedo +" </span>\n" +
+				  				"<span class=\"popoversubmenumain\">Albedo</span>\n" +
+				  			"</div>\n" +
+				  			"<div class=\"popovermenuitem last\">\n" +
+				  					"<span class=\"popovermenumain\">" + data.period +" years</span>\n" +
+				  					"<span class=\"popoversubmenumain\">Period</span>\n" +
+				  				"</div>\n" +
+				  		"</div>\n" +
+				  		"<div id=\"popoverfooter\">\n" +
+				  			"<span>Available Images &raquo;</span>\n" +
+				  		"</div>"
+				  	);
+				  	$("#popover").css('visibility','visibile');
+				  	$("#closelink").click(function() {
+				  		$("#popover").css('visibility','hidden');
+				  	});
+				  })
+				  .fail(function() {
+				    console.log( "error" );
+				  })
+				  .always(function() {
+				    console.log( "complete" );
+				  });
+				  
+				jqxhr.complete(function() {
+				  console.log( "second complete" );
+				});
+			}
 		});
 		</script>
+		
+		<map name="Map" id="Map">
+		    <area id="ast1" class="asteroid" shape="poly" coords="418,270,423,264,429,271,422,278" />
+		    <area id="ast2" class="asteroid" shape="poly" coords="443,300,448,310,456,305,453,298" />
+		    <area id="ast3" class="asteroid" shape="poly" coords="411,377,417,386,427,379,417,376" />
+		    <area id="ast4" class="asteroid" shape="poly" coords="490,410,495,414,501,408,495,404" />
+		    <area id="ast5" class="asteroid" shape="poly" coords="528,387,535,396,541,388" />
+		    <area id="ast6" class="asteroid" shape="poly" coords="568,404,571,409,579,403,571,398" />
+		    <area id="ast7" class="asteroid" shape="poly" coords="607,361,615,368,621,362,615,358" />
+		    <area id="ast8" class="asteroid"  shape="poly" coords="657,418,663,421,669,415,660,410" />
+		    <area id="ast9" class="asteroid"  shape="poly" coords="656,323,661,333,666,330,664,322" />
+		    <area id="ast10" class="asteroid"  shape="poly" coords="679,311,686,319,693,316,686,307" />
+		    <area id="ast11" class="asteroid"  shape="poly" coords="668,239,669,245,680,241,667,233" />
+		    <area id="ast12" class="asteroid"  shape="poly" coords="667,207,676,211,685,206,673,201" />
+		    <area id="ast13" class="asteroid" shape="poly" coords="622,204,627,213,637,206,628,198" />
+		    <area id="ast14" class="asteroid"  shape="poly" coords="566,170,567,180,581,173,574,166" />
+		    <area id="ast15" class="asteroid"  shape="poly" coords="479,178,481,181,490,180,485,172" />
+		    <area id="ast16" class="asteroid"  shape="poly" coords="471,203,475,210,485,202,478,199" />
+		</map>
+		
 		<div id="main">
-			<img id="solarsystem" src="img/solar system_asteroids_markiert72.png" alt="" usemap="#Map" />
-			<map name="Map" id="Map">
-			    <area alt="" title="" href="#" id="ast1" class="asteroid" shape="poly" coords="418,270,423,264,429,271,422,278" />
-			    <area alt="" title="" href="#" id="ast2" class="asteroid" shape="poly" coords="443,300,448,310,456,305,453,298" />
-			    <area alt="" title="" href="#" id="ast3" class="asteroid" shape="poly" coords="411,377,417,386,427,379,417,376" />
-			    <area alt="" title="" href="#" id="ast4" class="asteroid" shape="poly" coords="490,410,495,414,501,408,495,404" />
-			    <area alt="" title="" href="#" id="ast5" class="asteroid" shape="poly" coords="528,387,535,396,541,388" />
-			    <area alt="" title="" href="#" id="ast6" class="asteroid" shape="poly" coords="568,404,571,409,579,403,571,398" />
-			    <area alt="" title="" href="#"  id="ast7" class="asteroid" shape="poly" coords="607,361,615,368,621,362,615,358" />
-			    <area alt="" title="" href="#"  id="ast8" class="asteroid"  shape="poly" coords="657,418,663,421,669,415,660,410" />
-			    <area alt="" title="" href="#"  id="ast9" class="asteroid"  shape="poly" coords="656,323,661,333,666,330,664,322" />
-			    <area alt="" title="" href="#"  id="ast10" class="asteroid"  shape="poly" coords="679,311,686,319,693,316,686,307" />
-			    <area alt="" title="" href="#" id="ast11" class="asteroid"  shape="poly" coords="668,239,669,245,680,241,667,233" />
-			    <area alt="" title="" href="#"  id="ast12" class="asteroid"  shape="poly" coords="667,207,676,211,685,206,673,201" />
-			    <area alt="" title="" href="#"  id="ast13" class="asteroid" shape="poly" coords="622,204,627,213,637,206,628,198" />
-			    <area alt="" title="" href="#"  id="ast14" class="asteroid"  shape="poly" coords="566,170,567,180,581,173,574,166" />
-			    <area alt="" title="" href="#"  id="ast15" class="asteroid"  shape="poly" coords="479,178,481,181,490,180,485,172" />
-			    <area alt="" title="" href="#"  id="ast16" class="asteroid"  shape="poly" coords="471,203,475,210,485,202,478,199" />
-			</map>
+			<img id="solarsystem" src="img/solar system_asteroids_markiert72.png" usemap="#Map" />
 		</div>
 		
 		<div id="sidebar">
@@ -74,13 +173,13 @@
 			<div id="sidemenu">
 				<span class="menutitle">Orbit</span>
 				<ul>
-					<li class="selected"><span>Beispieltext</span></li>
-					<li><span>Beispieltext</span></li>
+					<li class="selected"><span><a href id="mainBelt">Main Belt</a></span></li>
+					<li><span>Other</span></li>
 				</ul>
 				<span class="menutitle">Material</span>
 				<ul class="selected">
-					<li><span>Beispieltext</span></li>
-					<li><span>Beispieltext</span></li>
+					<li><span><a>Iron</a></span></li>
+					<li><span>Rock</span></li>
 				</ul>
 			</div>
 			<div id="sidefooter">
@@ -90,36 +189,7 @@
 		</div>
 		
 		<div id="popover">
-			<div id="popoverheader">
-				<span id="popovertitle">(21) Lutetia</span>
-				<span id="popversubtitle">Rock/Metal</span>
-				<div id="popoverclose"><a id="closelink"><img id="popovercloseimage" src="img/Close_Icon.png"></a></div>
-			</div>
-			<div id="popovermenu">
-				<div class="popovermenuitem first">
-					<span class="popovermenumain">1.700 ± 0.017×10^18 kg</span>
-					<span class="popoversubmenumain">Mass</span>	
-				</div>
-				<div class="popovermenuitem">
-					<span class="popovermenumain">5.0 ± 0.4×1014 m³</span>
-					<span class="popoversubmenumain">Volume</span>	
-				</div>
-				<div class="popovermenuitem">
-					<span class="popovermenumain">3.064°</span>
-					<span class="popoversubmenumain">Inclination</span>	
-				</div>
-				<div class="popovermenuitem">
-					<span class="popovermenumain">2.435 AU</span>
-					<span class="popoversubmenumain">Semi-major axis</span>	
-				</div>
-				<div class="popovermenuitem last">
-					<span class="popovermenumain">18.96 km/s</span>
-					<span class="popoversubmenumain">Average orbital speed</span>	
-				</div>
-			</div>
-			<div id="popoverfooter">
-				<span>Available Images &raquo;</span>
-			</div>
+
 		</div>
 		
 		<div id="infoscreen">

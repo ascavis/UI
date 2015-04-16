@@ -26,13 +26,13 @@ function calculateCartesianCoordinates(orbitalElements, time){
 	var v3 = 0;
 	
 	var coordinates = new cartesianCoordinates();
-	// coordinates.x = v1 * x1 + v2 * y1;
-	// coordinates.y = v1 * x2 + v2 * y2;
-	// coordinates.z = v1 * x2 + v2 * y3;
+	coordinates.x = v1 * x1 + v2 * y1;
+	coordinates.y = v1 * x2 + v2 * y2;
+	coordinates.z = v1 * x2 + v2 * y3;
 	
-	coordinates.x = v1 * x1 + v2 * x2;
-	coordinates.y = v1 * y1 + v2 * y2;
-	coordinates.z = v1 * z1 + v2 * z2;
+	// coordinates.x = v1 * x1 + v2 * x2;
+	// coordinates.y = v1 * y1 + v2 * y2;
+	// coordinates.z = v1 * z1 + v2 * z2;
 	
 	return coordinates;	
 }

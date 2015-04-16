@@ -7,12 +7,12 @@ var drawArray = new Array();
 var planets = [earth, mars];
 
 function setUpScene() {					
-	renderer = new THREE.CanvasRenderer({ alpha: true });
+	renderer = new THREE.WebGLRenderer();
 	renderer.setSize( window.innerWidth, window.innerHeight );
 	
-	camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 1, 210000000 );
+	camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 1, 2100000000 );
 //	camera = new THREE.OrthographicCamera( - 10000000 , 100000000 , 100000000 , -100000000 , 1, 10000000 );
-	camera.position.y = 150000;
+	camera.position.y = 150000000;
 	camera.lookAt(new THREE.Vector3( 0, -1, 0 ));
 	
 	controls = new THREE.OrbitControls( camera );
@@ -27,10 +27,11 @@ function setUpScene() {
 	});
 	
 	document.body.appendChild( renderer.domElement );
+	render();
 }
 
 function setUpSun(){
-	var geometry = new THREE.SphereGeometry( 20000, 64, 64 );
+	var geometry = new THREE.SphereGeometry( 695800 * 10, 64, 64 );
 	var material  = new THREE.MeshBasicMaterial( { color: 0xffffff })
 	//var material = new THREE.MeshBasicMaterial({ overdraw : true} );
 	

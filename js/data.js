@@ -15,15 +15,11 @@ function cartesianCoordinates() {
 	this.z = 0;
 }
 
+var sizeScaleFactor = 1000;
+
 function planet(name, radius, color, orbitalElements) {
-	var geometry = new THREE.SphereGeometry( radius, 32, 32 );
-	var material  = new THREE.MeshBasicMaterial( { color: 0xffffff, overdraw : true })
-	// var material = new THREE.MeshBasicMaterial({ overdraw : true} );
-	// material.map = THREE.ImageUtils.loadTexture('img/textures/world2048.jpg');
-	
-	// material.map.wrapS = THREE.RepeatWrapping; // This causes globe not to load
-	// material.map.offset.x = 180 / ( 2 * Math.PI ); // causes globe not to load
-	
+	var geometry = new THREE.SphereGeometry( radius * sizeScaleFactor, 32, 32 );
+	var material  = new THREE.MeshBasicMaterial( { color: color, overdraw : true })
 	material.specular  = new THREE.Color(color);
 	mesh = new THREE.Mesh( geometry, material );	
 
@@ -36,7 +32,7 @@ function planet(name, radius, color, orbitalElements) {
 	
 	var path = new THREE.Path( curve.getPoints( 50 ) );
 	var geometry = path.createPointsGeometry( 50 );
-	var material = new THREE.LineBasicMaterial( { color : 0xff0000 } );
+	var material = new THREE.LineBasicMaterial( { color : color} );
 	
 	// Create the final Object3d to add to the scene
 	var ellipse = new THREE.Line( geometry, material );
