@@ -11,19 +11,24 @@
 		<script type="text/javascript" src="js/libs/Projector.js"></script>
 		<script type="text/javascript" src="js/libs/tween.min.js"></script>
 		<script type="text/javascript" src="js/libs/jquery-ui-1.10.4.custom.js"></script>
-		<script type="text/javascript" src="js/model.js"></script>
 		<script type="text/javascript" src="js/data.js"></script>
+		<script type="text/javascript" src="js/calculations.js"></script>
+		<script type="text/javascript" src="js/orbitalCurve.js"></script>
+		<script type="text/javascript" src="js/model.js"></script>
 		<script type="text/javascript" src="js/planets.js"></script>
 		<script type="text/javascript" src="js/render.js"></script>
 		<script type="text/javascript" src="js/filter.js"></script>
-		<script type="text/javascript" src="js/calculations.js"></script>
 	</head>
 	<body>
 		<script>
 			setUpScene();
 			filterSetUp();
-			updateScene();
-			window.setInterval("updateScene", 1000);
+			window.setInterval(
+                function() {
+                    updateScene();
+                    render();
+                }, 15
+            );
 		</script>	
 		<label id="minYear"></label>
 		<label id="maxYear"></label>

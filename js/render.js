@@ -7,13 +7,13 @@ var drawArray = new Array();
 var planets = [earth, mars];
 
 function setUpScene() {					
-	renderer = new THREE.WebGLRenderer();
+	renderer = new THREE.WebGLRenderer({ alpha: true });
 	renderer.setSize( window.innerWidth, window.innerHeight );
 	
-	camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 1, 2100000000 );
+	camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 1, 210000000 );
 //	camera = new THREE.OrthographicCamera( - 10000000 , 100000000 , 100000000 , -100000000 , 1, 10000000 );
-	camera.position.y = 150000000;
-	camera.lookAt(new THREE.Vector3( 0, -1, 0 ));
+	camera.position = new THREE.Vector3(0, -2 * AU, 2 * AU);
+	camera.lookAt(new THREE.Vector3(0, 0, 0));
 	
 	controls = new THREE.OrbitControls( camera );
 	controls.addEventListener( 'change', render );
@@ -24,14 +24,15 @@ function setUpScene() {
 	
 	planets.forEach( function(planet){
 		scene.add(planet.mesh);
+		scene.add(planet.orbitMesh);
+		scene.add(planet.refCircle);
 	});
 	
 	document.body.appendChild( renderer.domElement );
-	render();
 }
 
 function setUpSun(){
-	var geometry = new THREE.SphereGeometry( 695800 * 10, 64, 64 );
+	var geometry = new THREE.SphereGeometry( 500000 * 10, 16, 16 );
 	var material  = new THREE.MeshBasicMaterial( { color: 0xffffff })
 	//var material = new THREE.MeshBasicMaterial({ overdraw : true} );
 	
@@ -42,7 +43,7 @@ function setUpSun(){
 }
 
 function drawAxes() {
-	var length = 100000;
+	var length = 2 * AU;
 	var axes = new THREE.Object3D();
 	axes.add( buildAxis( new THREE.Vector3( 0, 0, 0 ), new THREE.Vector3( length, 0, 0 ), 0xFF0000, false ) );
 	axes.add( buildAxis( new THREE.Vector3( 0, 0, 0 ), new THREE.Vector3( 0, length, 0 ), 0xFF0000, false ) );
@@ -54,7 +55,8 @@ function updateScene(){
 	var currentdate = new Date();
 	
 	planets.forEach( function(planet){
-		var coordinates = calculateCartesianCoordinates(planet.orbitalElements, currentdate);	
+        var nu = trueAnomaly(planet.orbitalElements, currentdate);
+		var coordinates = calculateCartesianCoordinates(planet.orbitalElements, nu);	
 		planet.mesh.position = new THREE.Vector3(coordinates.x, coordinates.y, coordinates.z);
 	});
 }
@@ -76,20 +78,19 @@ function drawLabel(text, position3d) {
 	return div;
 }
 
-function updateLabel( annotation, position3d){
-	
+function updateLabel( annotation, position3d) {
 	if(world3dToCanvas2d(position3d).y > window.innerHeight - 50 || world3dToCanvas2d(position3d).y < 50){ $(annotation).hide(); return; }
 	if(world3dToCanvas2d(position3d).x > window.innerWidth - 50 || world3dToCanvas2d(position3d).x < 50) { $(annotation).hide(); return; }
-	
+
 	annotation.style.top = world3dToCanvas2d(position3d).y;
 	annotation.style.left = world3dToCanvas2d(position3d).x;
-	
+
 	$(annotation).show();
-	
+
 	annotation.onclick = function(){
 		moveCameraTo(position3d);
 	};
-	
+
 	return annotation;
 }
 
