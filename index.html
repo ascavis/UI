@@ -23,8 +23,12 @@
 		<script>
 			setUpScene();
 			filterSetUp();
-			updateScene();
-			window.setInterval("updateScene", 1000);
+			window.setInterval(
+                function() {
+                    updateScene();
+                    render();
+                }, 15
+            );
 		</script>	
 		<label id="minYear"></label>
 		<label id="maxYear"></label>
