@@ -4,13 +4,11 @@ var scene;
 
 var drawArray = new Array();
 
-
 function setUpScene() {					
 	renderer = new THREE.WebGLRenderer({ alpha: true });
 	renderer.setSize( window.innerWidth, window.innerHeight );
 	
 	camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 1, 210000000 );
-//	camera = new THREE.OrthographicCamera( - 10000000 , 100000000 , 100000000 , -100000000 , 1, 10000000 );
 	camera.position = new THREE.Vector3(0, -2 * AU, 2 * AU);
 	camera.lookAt(new THREE.Vector3(0, 0, 0));
 	
@@ -24,7 +22,6 @@ function setUpScene() {
 	planets.getPlanets().forEach( function(planet){
 		scene.add(planet.mesh);
 		scene.add(planet.orbitMesh);
-		scene.add(planet.refCircle);
 	});
 	
 	asteroids.load();

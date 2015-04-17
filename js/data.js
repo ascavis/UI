@@ -1,5 +1,21 @@
 var AU = 1.496e8;
 
+/** A THREE.js curve describing an orbit */
+OrbitalCurve = function ( orbitalElements ) {
+    // console.log("run constructor");
+    this.orbitalElements = orbitalElements;
+};
+
+OrbitalCurve.prototype = Object.create( THREE.Curve.prototype );
+
+OrbitalCurve.prototype.constructor = THREE.OrbitalCurve;
+
+OrbitalCurve.prototype.getPoint = function ( t ) {
+    var coord = new calculateCartesianCoordinates(this.orbitalElements, t * 2 * Math.PI);
+    // console.log(t, coord);
+    return coord;
+};
+
 function orbitalElements() {
 	this.referenceDate = new Date(2000, 1, 1, 1, 1, 1, 1);
 	this.orbitalPeriod = 1;
@@ -23,16 +39,16 @@ var planets = (function() {
 		var geometry = new THREE.SphereGeometry( radius * 200, 16, 16 );
 		var material  = new THREE.MeshBasicMaterial( { color: color, overdraw : true })
 		material.specular  = new THREE.Color(color);
-		mesh = new THREE.Mesh( geometry, material );	
+		var mesh = new THREE.Mesh( geometry, material );	
 	
 	    var curve = new OrbitalCurve(orbitalElements);
-		var geometry = new THREE.Geometry();
-		geometry.vertices = curve.getPoints(50);
+		var orbitGeometry = new THREE.Geometry();
+		orbitGeometry.vertices = curve.getPoints(50);
 		var material = new THREE.LineBasicMaterial({ color : color });
-		var orbit = new THREE.Line(geometry, material);
+		var orbit = new THREE.Line(orbitGeometry, material);
 	
 		this.name = name;
-		this.geometry = planet;
+		this.geometry = geometry;
 		this.material = material;
 		this.mesh = mesh;
 	    this.orbitMesh = orbit;
@@ -83,13 +99,13 @@ var asteroids = (function() {
 		mesh = new THREE.Mesh( geometry, material );	
 	
 	    var curve = new OrbitalCurve(orbitalElements);
-		var geometry = new THREE.Geometry();
-		geometry.vertices = curve.getPoints(50);
+		var orbitGeometry = new THREE.Geometry();
+		orbitGeometry.vertices = curve.getPoints(50);
 		var material = new THREE.LineBasicMaterial({ color : color });
-		var orbit = new THREE.Line(geometry, material);
+		var orbit = new THREE.Line(orbitGeometry, material);
 	
 		this.name = name;
-		this.geometry = planet;
+		this.geometry = geometry;
 		this.material = material;
 		this.mesh = mesh;
 	    this.orbitMesh = orbit;
@@ -124,7 +140,7 @@ var asteroids = (function() {
 			    console.log( "error" );
 			  })
 			  .always(function() {
-			    console.log( "complete" );
+			    //console.log( "complete" );
 			  });
 			  
 			jqxhr.complete(function() {
