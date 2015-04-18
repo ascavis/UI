@@ -33,6 +33,12 @@ function cartesianCoordinates() {
 	this.z = 0;
 }
 
+Date.prototype.setJulian = function(jd) {
+    var refDate = 2440587.5;
+    var timestamp = (jd - refDate) * 86400000.0;
+    this.setTime(timestamp);
+}
+
 var planets = (function() {
 	function planet(name, radius, color, orbitalElements) {
 	    // NOTE: radius is scaled up extremely for debugging purposes
@@ -91,38 +97,61 @@ var planets = (function() {
 var asteroids = (function() {
 	var asteroids = [];
 	
-	function asteroid(name, radius, color, orbitalElements) {
-	    // NOTE: radius is scaled up extremely for debugging purposes
-		var geometry = new THREE.SphereGeometry( radius * 200, 16, 16 );
-		var material  = new THREE.MeshBasicMaterial( { color: color, overdraw : true })
-		material.specular  = new THREE.Color(color);
-		mesh = new THREE.Mesh( geometry, material );	
-	
-	    var curve = new OrbitalCurve(orbitalElements);
-		var orbitGeometry = new THREE.Geometry();
-		orbitGeometry.vertices = curve.getPoints(50);
-		var material = new THREE.LineBasicMaterial({ color : color });
-		var orbit = new THREE.Line(orbitGeometry, material);
-	
-		this.name = name;
-		this.geometry = geometry;
-		this.material = material;
-		this.mesh = mesh;
-	    this.orbitMesh = orbit;
+	function asteroid(id, orbitalElements) {
+		this.id = id;
 		this.orbitalElements = orbitalElements;
-		
-		this.added = false;
+		this.name = "";
+		this.taxonomyClass = "M";
+		this.orbitType = 0;
+		this.absoluteMagnitude = 0;
+		this.diameter = 1;
 	};
 	
+	function selectionProperties() {
+		this.taxonomyClass = "M";
+		this.orbitType = 0;
+		this.minAbsoluteMagnitude = 0.5;
+		this.maxAbsoluteMagnitude = 5;
+		this.minDiameter = 0.1;
+		this.maxDiameter = 550;		
+	}
+	
+	var highlightProperties = new selectionProperties();
+	var filterProperties = new selectionProperties();
+	
+		
 	function loadAsteroidData(){
-			var jqxhr = $.getJSON( "/mpc_more/?orderby=absolute_magnitude%20DESC&no=100&paramlim=object_type=%22m%22", function() {
+	 // http://ascavis.org:5000/mpc_more/?orderby=absolute_magnitude%20DESC&no=10&paramlim=residual_rms%3E2%20AND%20inclination%3E6
+	
+			var selectionString = "/mpc_more/?orderby=absolute_magnitude%20DESC&no=10&paramlim="
+			var taxonomyClassStringPart;
+			var orbitTypeStringPart;
+			
+			if(filterProperties.taxonomyClass == "all" || filterProperties.taxonomyClass == null || filterProperties.taxonomyClass == ""){
+				taxonomyClassStringPart = "";
+			}
+			else{
+				taxonomyClassStringPart = "taxonomy_class=%22"+ filterProperties.taxonomyClass +"%22%20AND%20";
+			}
+						
+			if(filterProperties.orbitType != -1){
+				orbitTypeStringPart = "orbit_type="+ filterProperties.orbitType +"%20AND%20"
+			}
+			else{
+				orbitTypeStringPart = "";
+			}
+			
+			selectionString += taxonomyClassStringPart + orbitTypeStringPart + "absolute_magnitude>"+ filterProperties.minAbsoluteMagnitude +"%20AND%20absolute_magnitude<" + filterProperties.maxAbsoluteMagnitude + "%20AND%20diameter>"+filterProperties.minDiameter+"%20AND%20diameter<" + filterProperties.maxDiameter; 
+						
+			var jqxhr = $.getJSON( selectionString, function() {
 			  console.log( "success" );
 			})
-			  .done(function(data) {		  		
+			  .done(function(data) {
+			  		asteroids = [];		  		
 			  		data.forEach( function(a){
 			  			var asteroidOrbitalElements = new orbitalElements();
-			  			
-			  			asteroidOrbitalElements.referenceDate = new Date(2000, 1, 1, 1, 1, 1, 1);
+			  						  			
+			  			asteroidOrbitalElements.referenceDate.setJulian(a.epoch_jd);
 			  			asteroidOrbitalElements.orbitalPeriod = a.period;
 			  			asteroidOrbitalElements.semiMajorAxis = a.semimajor_axis * AU;
 			  			asteroidOrbitalElements.eccentricity = a.eccentricity;
@@ -131,8 +160,9 @@ var asteroids = (function() {
 			  			asteroidOrbitalElements.perihelion = a.argument_of_perihelion / 180.0 * Math.PI;
 			  			asteroidOrbitalElements.inclination = a.inclination / 180.0 * Math.PI;
 			  			
-			  			var ast = new asteroid(a.name, 2000, 0xffffff, asteroidOrbitalElements);
-			  					  			
+			  			var ast = new asteroid(a.number, asteroidOrbitalElements);
+			  			ast.name = a.name;
+			  			
 			  			asteroids.push(ast);
 			  		});
 			  })
@@ -154,6 +184,19 @@ var asteroids = (function() {
 		},
 		getAsteroids: function(){
 			return asteroids;
-		}
+		},
+		getFilterProperties: function(){
+			return filterProperties;
+		},
+		getHighlightProperties: function(){
+			return highlightProperties;
+		},
+		setFilterProperties: function(selectionProperties){
+			filterProperties = selectionProperties;
+			loadAsteroidData();
+		},
+		setHighlightProperties: function(selectionProperties){
+			highlightProperties = selectionProperties;
+		}		
 	}	
 }());

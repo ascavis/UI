@@ -101,6 +101,32 @@ a {
 	font-size: 10pt;
 }
 
+#sidebar div.menucontainer{
+	margin-left: 40px;
+	margin-right: 20px;
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+
+#sidebar div.menucontainer div.slider{
+	display: inline-block;
+	width: 40%;
+}
+
+#sidebar div.menucontainer span.left{
+	float:	left;
+	display: block;
+	width: 29%;
+	
+	text-align: left;
+}
+#sidebar div.menucontainer span.right{
+	float: right;
+	display: block;
+	width: 29%;
+	text-align: right;
+}
+
 #sidebar #sidefooter{
 	position: absolute;
 	bottom: 0px;

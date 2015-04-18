@@ -4,15 +4,17 @@ var scene;
 
 var drawArray = new Array();
 
-function setUpScene() {					
+function setUpScene() {
+	var container = document.getElementById("main");					
+	
 	renderer = new THREE.WebGLRenderer({ alpha: true });
-	renderer.setSize( window.innerWidth, window.innerHeight );
+	renderer.setSize( container.offsetWidth, container.offsetHeight );
 	
 	camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 1, 210000000 );
 	camera.position = new THREE.Vector3(0, -2 * AU, 2 * AU);
 	camera.lookAt(new THREE.Vector3(0, 0, 0));
 	
-	controls = new THREE.OrbitControls( camera );
+	controls = new THREE.OrbitControls(camera);
 	controls.addEventListener( 'change', render );
 	
 	scene = new THREE.Scene();
@@ -26,7 +28,7 @@ function setUpScene() {
 	
 	asteroids.load();
 
-	document.body.appendChild( renderer.domElement );
+	container.appendChild(renderer.domElement);
 }
 
 function setUpSun(){
@@ -48,6 +50,30 @@ function drawAxes() {
 	scene.add(axes);
 }
 
+
+var asteroidRenderMap = {};
+var asteroidRenderModel = function(asteroid, radius, color){
+	    // NOTE: radius is scaled up extremely for debugging purposes
+		var geometry = new THREE.SphereGeometry( radius * 200, 16, 16 );
+		var material  = new THREE.MeshBasicMaterial( { color: color, overdraw : true })
+		material.specular  = new THREE.Color(color);
+		mesh = new THREE.Mesh( geometry, material );	
+	
+	    var curve = new OrbitalCurve(asteroid.orbitalElements);
+		var orbitGeometry = new THREE.Geometry();
+		orbitGeometry.vertices = curve.getPoints(50);
+		var material = new THREE.LineBasicMaterial({ color : color });
+		var orbit = new THREE.Line(orbitGeometry, material);
+		
+		this.asteroid = asteroid;
+		this.geometry = geometry;		
+		this.material = material;
+		this.mesh = mesh;
+		this.orbitMesh = orbit;
+		
+		this.updateMarker = false;
+}
+
 function updateScene(){
 	var currentdate = new Date();
 	
@@ -57,18 +83,38 @@ function updateScene(){
 		planet.mesh.position = new THREE.Vector3(coordinates.x, coordinates.y, coordinates.z);
 	});
 	
+	for (var key in asteroidRenderMap) {
+	    asteroidRenderMap[key].updateMarker = false;
+	}
+	
 	asteroids.getAsteroids().forEach(
 		function(ast){
-			if(!ast.added){			
-				scene.add(ast.mesh);
-				scene.add(ast.orbitMesh);
-			}
-			
 			var nu = trueAnomaly(ast.orbitalElements, currentdate);
 			var coordinates = calculateCartesianCoordinates(ast.orbitalElements, nu);	
-			ast.mesh.position = new THREE.Vector3(coordinates.x, coordinates.y, coordinates.z);	
+			
+			if(ast.id in asteroidRenderMap){
+				var rA = asteroidRenderMap[ast.id];
+				rA.mesh.position = new THREE.Vector3(coordinates.x, coordinates.y, coordinates.z);
+				rA.updateMarker = true;
+			}
+			else{
+				var rA = new asteroidRenderModel(ast,2000,0xffffff);
+				rA.mesh.position = new THREE.Vector3(coordinates.x, coordinates.y, coordinates.z);
+				rA.updateMarker = true;
+				asteroidRenderMap[ast.id] = rA;
+				scene.add(rA.mesh);
+				scene.add(rA.orbitMesh);
+			}
 		}
 	);
+	
+	for (var key in asteroidRenderMap) {
+	    if(asteroidRenderMap[key].updateMarker == false){
+	    	scene.remove(asteroidRenderMap[key].mesh);
+	    	scene.remove(asteroidRenderMap[key].orbitMesh);
+	    	delete asteroidRenderMap[key];
+	    }
+	}
 }
 
 function drawLabel(text, position3d) {

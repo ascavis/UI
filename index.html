@@ -3,14 +3,14 @@
 		<title>Ascavis</title>
 		<link href="css/style.css" rel="stylesheet">
 	    <link rel="stylesheet" href="css/ui-darkness/jquery-ui-1.10.4.custom.css">
-		<script type="text/javascript" src="js/libs/jquery-2.1.0.js"></script>
-		<script type="text/javascript" src="js/libs/jquery-migrate-1.2.1.js"></script>
+	    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+		<script type="text/javascript" src="//code.jquery.com/jquery-2.1.3.js"></script>
+	    <script type="text/javascript" src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
 		<script type="text/javascript" src="js/libs/jquery.timer.js"></script>
 		<script type="text/javascript" src="js/libs/three.min.js"></script>
 		<script type="text/javascript" src="js/libs/OrbitControls.js"></script>
 		<script type="text/javascript" src="js/libs/Projector.js"></script>
 		<script type="text/javascript" src="js/libs/tween.min.js"></script>
-		<script type="text/javascript" src="js/libs/jquery-ui-1.10.4.custom.js"></script>
 		<script type="text/javascript" src="js/model.js"></script>
 		<script type="text/javascript" src="js/calculations.js"></script>
 		<script type="text/javascript" src="js/data.js"></script>
@@ -18,6 +18,97 @@
 		<script type="text/javascript" src="js/filter.js"></script>
 	</head>
 	<body>
+		<label id="minYear"></label>
+		<label id="maxYear"></label>
+		<!--<div id="slider-range" style="position: fixed; bottom: 20px; left: 50px; z-index: 10;"></div>-->
+		
+		<div id="main">
+
+		</div>
+				
+		<div id="sidebar">
+			<div id="logo">
+				<img src="img/ascavis.png" />
+			</div>
+			<div id="sidemenu">
+				<span class="menutitle">Orbit</span>			
+				<div class="menucontainer">
+					<select id="orbitSelection" name="orbitSelection">
+					  <option value="0">Undefined / Main Belt</option>
+					  <option value="1">Atiras</option>
+					  <option value="2">Atens</option>
+					  <option value="3">Apollo</option>
+					  <option value="4">Amors</option>
+					  <option value="5">Mars Crossers</option>
+					  <option value="6">Hungarias</option>
+					  <option value="7">Phocaeas</option>
+					  <option value="8">Hildas</option>
+					  <option value="9">Jupiter Trojans</option>
+					  <option value="10">Distant Objects</option>
+					</select>
+				</div>
+				<span class="menutitle">Taxonomy Class</span>			
+				<div class="menucontainer">
+					<select id="taxonomyClassSelection" name="taxonomyClassSelection">
+						<optgroup label="C Group (dark carbonaceous objects)">
+					  		<option value="B">B Type</option>
+					 		<option value="F">F Type</option>
+					  		<option value="G">G Type</option>
+					  		<option value="C">C Type</option>
+					  		<option value="S">S Type</option>
+					  	</optgroup>
+					  	<optgroup label="X Group">
+						  	<option value="M" selected="true">M Type</option>
+						  	<option value="E">E Type</option>
+						  	<option value="P">P Type</option>
+					  	</optgroup>
+					  	<optgroup label="Small Groups">
+						  	<option value="A">A Type</option>
+							<option value="D">T Type</option>
+							<option value="P">Q Type</option>
+							<option value="A">R Type</option>
+							<option value="D">V Type</option>
+						</optgroup>
+					</select>
+				</div>
+				<span class="menutitle">Magnitude</span>
+				<div class="menucontainer">
+					<div id="magnitude-range-slider" class="slider"></div>
+					<span id="magnitude-range-min" class="left">-5</span>
+					<span id="magnitude-range-max" class="right">50</span>
+				</div>							
+				<span class="menutitle">Diameter</span>
+				<div class="menucontainer">
+					<div id="diameter-range-slider" class="slider"></div>
+					<span id="diameter-range-min" class="left">0.1</span>
+					<span id="diameter-range-max" class="right">550</span>
+				</div>					
+			</div>
+			<div id="sidefooter">
+				<span class="sidefooter"><a id="moreAsteroids">More about Asteroids</a></span>
+				<span class="sidefooter">About ASCAVIS</span>
+			</div>
+		</div>
+				
+		<div id="popover">
+		</div>
+				
+		<div id="infoscreen">
+			<div id="infoscreenheader">
+				<span id="title">Want to learn more about asteroids?</span>
+			</div>
+			<div id="infoscreenmain">
+				<div id="infoscreencol1">
+					<div class="infoimg">
+						<!--<img src="img/infothumbnail1.png" />-->
+					</div>
+					<div class="infosubtitle">
+						<span>Infographic about Asteroids by Kim Orr</span>
+					</div>
+				</div>
+			</div>
+		</div>
+		
 		<script>
 			setUpScene();
 			filterSetUp();
@@ -26,9 +117,54 @@
 			        updateScene();
 			        render();
 			    }, 1000);
-		</script>	
-		<label id="minYear"></label>
-		<label id="maxYear"></label>
-		<div id="slider-range" style="position: fixed; bottom: 20px; left: 50px; z-index: 10;"></div>
+			    
+			    $(function() {
+			        $("#magnitude-range-slider").slider({
+			          range: true,
+			          min: -5,
+			          max: 50,
+			          values: [ -5, 50 ],
+			          slide: function( event, ui ) {
+			          	$('#magnitude-range-min').text(ui.values[ 0 ]);
+			          	$('#magnitude-range-max').text(ui.values[ 1 ]);
+			          	
+			          	var filterProperties = asteroids.getFilterProperties();
+			          	filterProperties.minAbsoluteMagnitude = ui.values[ 0 ];
+			          	filterProperties.maxAbsoluteMagnitude = ui.values[ 1 ];
+			          	asteroids.setFilterProperties(filterProperties);
+			          }
+			        });
+			     });
+			     
+			     $(function() {
+			         $("#diameter-range-slider").slider({
+			           range: true,
+			           min: 0.1,
+			           max: 550,
+			           values: [ 0.1, 550 ],
+			           slide: function( event, ui ) {
+			           	$('#diameter-range-min').text(ui.values[ 0 ]);
+			           	$('#diameter-range-max').text(ui.values[ 1 ]);
+			           	
+			           	var filterProperties = asteroids.getFilterProperties();
+			           	filterProperties.minDiameter = ui.values[ 0 ];
+			           	filterProperties.maxDiameter = ui.values[ 1 ];
+			           	asteroids.setFilterProperties(filterProperties);
+			           }
+			         });
+			      });
+			     
+			     $('orbitSelection').on('change', function() {
+			       var filterProperties = asteroids.getFilterProperties();
+			       filterProperties.orbitType = this.value;
+			       asteroids.setFilterProperties(filterProperties);
+			     });
+			     
+			     $('taxonomyClassSelection').on('change', function() {
+			       var filterProperties = asteroids.getFilterProperties();
+			       filterProperties.taxonomyClass = this.value;
+			       asteroids.setFilterProperties(filterProperties);
+			     });
+		</script>		
 	</body>
 </html>
