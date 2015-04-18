@@ -29,7 +29,7 @@
 					<span class="menutitle">Orbit</span>			
 					<div class="menucontainer">
 						<select id="orbitSelection" name="orbitSelection">
-						  <option value="0">Undefined / Main Belt</option>
+						  <option value="0" selected="true">Undefined / Main Belt</option>
 						  <option value="1">Atiras</option>
 						  <option value="2">Atens</option>
 						  <option value="3">Apollo</option>
@@ -54,18 +54,18 @@
 						  		<option value="S">S Type</option>
 						  	</optgroup>
 						  	<optgroup label="X Group">
-							  	<option value="M" selected="true">M Type</option>
+							  	<option value="M">M Type</option>
 							  	<option value="E">E Type</option>
 							  	<option value="P">P Type</option>
 						  	</optgroup>
 						  	<optgroup label="Small Groups">
 							  	<option value="A">A Type</option>
-								<option value="D">T Type</option>
-								<option value="P">Q Type</option>
-								<option value="A">R Type</option>
-								<option value="D">V Type</option>
+								<option value="T">T Type</option>
+								<option value="Q">Q Type</option>
+								<option value="R">R Type</option>
+								<option value="V">V Type</option>
 							</optgroup>
-							<option value="all">Select All</option>
+							<option value="all" selected="true">Select All</option>
 						</select>
 					</div>
 					<span class="menutitle">Magnitude</span>
@@ -104,7 +104,7 @@
 			          range: true,
 			          min: -5,
 			          max: 50,
-			          values: [ -5, 50 ],
+			          values: [ asteroids.getFilterProperties().minAbsoluteMagnitude, asteroids.getFilterProperties().maxAbsoluteMagnitude ],
 			          slide: function( event, ui ) {
 			          	$('#magnitude-range-min').text(ui.values[ 0 ]);
 			          	$('#magnitude-range-max').text(ui.values[ 1 ]);
@@ -115,12 +115,13 @@
 			          	asteroids.setFilterProperties(filterProperties);
 			          }
 			        });
-			     
+
+			 	
 			 $("#diameter-range-slider").slider({
 			           range: true,
 			           min: 0.1,
 			           max: 550,
-			           values: [ 0.1, 550 ],
+			           values: [ asteroids.getFilterProperties().minDiameter, asteroids.getFilterProperties().maxDiameter ],
 			           slide: function( event, ui ) {
 			           	$('#diameter-range-min').text(ui.values[ 0 ]);
 			           	$('#diameter-range-max').text(ui.values[ 1 ]);
@@ -132,6 +133,8 @@
 			           }
 			         });
 			     
+
+			     
 			     $('#orbitSelection').on('change', function() {
 			       var filterProperties = asteroids.getFilterProperties();
 			       filterProperties.orbitType = this.value;
@@ -142,6 +145,13 @@
 			       var filterProperties = asteroids.getFilterProperties();
 			       filterProperties.taxonomyClass = this.value;
 			       asteroids.setFilterProperties(filterProperties);
+			     });
+			     
+			     $(document).ready(function(){
+			     		$('#magnitude-range-min').text(asteroids.getFilterProperties().minAbsoluteMagnitude);
+			     		$('#magnitude-range-max').text(asteroids.getFilterProperties().maxAbsoluteMagnitude);
+		     			$('#diameter-range-min').text(asteroids.getFilterProperties().minDiameter);
+		     			$('#diameter-range-max').text(asteroids.getFilterProperties().maxDiameter);
 			     });
 		</script>		
 	</body>

@@ -138,12 +138,12 @@ var asteroids = (function() {
 	};
 	
 	function selectionProperties() {
-		this.taxonomyClass = "M";
-		this.orbitType = 0;
-		this.minAbsoluteMagnitude = 0.5;
-		this.maxAbsoluteMagnitude = 5;
-		this.minDiameter = 0.1;
-		this.maxDiameter = 550;		
+		this.taxonomyClass = "all";
+		this.orbitType = -1;
+		this.minAbsoluteMagnitude = -5;
+		this.maxAbsoluteMagnitude = 10;
+		this.minDiameter = 100;
+		this.maxDiameter = 500;		
 	}
 	
 	var highlightProperties = new selectionProperties();
@@ -151,13 +151,11 @@ var asteroids = (function() {
 	
 		
 	function loadAsteroidData(){
-	 // http://ascavis.org:5000/mpc_more/?orderby=absolute_magnitude%20DESC&no=10&paramlim=residual_rms%3E2%20AND%20inclination%3E6
-	
-			var selectionString = "/mpc_more/?orderby=absolute_magnitude%20DESC&no=10&paramlim="
+			var selectionString = "/mpc_more/?orderby=absolute_magnitude%20DESC&no=1000&paramlim="
 			var taxonomyClassStringPart = "";
 			var orbitTypeStringPart = "";
 			
-			if(! (filterProperties.taxonomyClass == "all" || filterProperties.taxonomyClass == null || filterProperties.taxonomyClass == "")){
+			if(!(filterProperties.taxonomyClass == "all" || filterProperties.taxonomyClass == null || filterProperties.taxonomyClass == "")){
 				taxonomyClassStringPart = "taxonomy_class=%22"+ filterProperties.taxonomyClass +"%22%20AND%20";
 			}
 						

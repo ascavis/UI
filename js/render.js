@@ -36,7 +36,7 @@ var asteroidRenderModel = function(asteroid){
 	    var curve = new OrbitalCurve(asteroid.orbitalElements);
 		var orbitGeometry = new THREE.Geometry();
 		orbitGeometry.vertices = curve.getPoints(50);
-		var material = new THREE.LineBasicMaterial({ color : color });
+		var material = new THREE.LineBasicMaterial({ color : 0xffffff });
 		var orbit = new THREE.Line(orbitGeometry, material);
 		
 		this.asteroid = asteroid;
@@ -53,13 +53,14 @@ function setUpScene() {
 	var container = document.getElementById("main");					
 	
 	renderer = new THREE.WebGLRenderer({ alpha: true });
-	//renderer.setSize( container.offsetWidth, container.offsetHeight );
+	renderer.setSize( container.offsetWidth, container.offsetHeight );
 	container.appendChild(renderer.domElement);
 		
-	camera = new THREE.PerspectiveCamera( 135, window.innerWidth / window.innerHeight, 0, 200 * AU );
-	camera.position = new THREE.Vector3(0, -2 * AU, 2 * AU);
-	camera.lookAt(new THREE.Vector3(0, 0, 0));
+	camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 2000 * AU );
+	camera.position.set(0, -2 * AU, 2 * AU);
 	
+	camera.lookAt(new THREE.Vector3(0, 0, 0));
+
 	controls = new THREE.OrbitControls(camera,container);
 	controls.addEventListener( 'change', render );
 	
@@ -74,17 +75,19 @@ function setUpScene() {
 		scene.add(pR.mesh);
 		scene.add(pR.orbitMesh);
 	});
+	
+	render();
 
 	asteroids.load();
 }
 
 function setUpSun(){
-	var geometry = new THREE.SphereGeometry( 500000 * 10, 16, 16 );
+	var geometry = new THREE.SphereGeometry( 0.05 * AU, 16, 16 );
 	var material  = new THREE.MeshBasicMaterial( { color: 0xffffff });
 	
 	material.specular  = new THREE.Color('yellow');
 	mesh = new THREE.Mesh( geometry, material );
-	mesh.position = new THREE.Vector3(0,0,0);
+	mesh.position.set(0,0,0);
 	scene.add(mesh);
 }
 
@@ -103,7 +106,7 @@ function updateScene(){
 	planetRenderModels.forEach( function(pR){
         var nu = trueAnomaly(pR.planet.orbitalElements, currentdate);
 		var coordinates = calculateCartesianCoordinates(pR.planet.orbitalElements, nu);	
-		pR.mesh.position = new THREE.Vector3(coordinates.x, coordinates.y, coordinates.z);
+		pR.mesh.position.set(coordinates.x, coordinates.y, coordinates.z);
 	});
 	
 	for (var key in asteroidRenderMap) {
@@ -117,12 +120,12 @@ function updateScene(){
 			
 			if(ast.id in asteroidRenderMap){
 				var rA = asteroidRenderMap[ast.id];
-				rA.mesh.position = new THREE.Vector3(coordinates.x, coordinates.y, coordinates.z);
+				rA.mesh.position.set(coordinates.x, coordinates.y, coordinates.z);
 				rA.updateMarker = true;
 			}
 			else{
 				var rA = new asteroidRenderModel(ast,2000,0xffffff);
-				rA.mesh.position = new THREE.Vector3(coordinates.x, coordinates.y, coordinates.z);
+				rA.mesh.position.set(coordinates.x, coordinates.y, coordinates.z);
 				rA.updateMarker = true;
 				asteroidRenderMap[ast.id] = rA;
 				scene.add(rA.mesh);
