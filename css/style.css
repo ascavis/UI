@@ -9,7 +9,7 @@ body
 canvas 
 { 
 	width: 100%; 
-	height: 100%
+	height: 100%;
 }
 
 div.annotation {
@@ -27,8 +27,7 @@ body {
 	font-size: 10pt;
 	color: #ffffff;
 	
-	margin-bottom: 0;
-	margin-top: 0;
+	margin:0;
 }
 
 a {
@@ -36,9 +35,18 @@ a {
 	text-decoration: none;
 }
 
+#wrapper{
+	margin-right: 201px;
+}
+
+#clear {
+	clear: both;
+}
+
 #main{
 	height: 100%;
 	width: 100%;
+	float: left;
 	margin-top: auto;
 	margin-bottom: auto;
 	
@@ -51,15 +59,13 @@ a {
 }
 
 #sidebar{
-	height: 100%;
+	position: relative;
+	
+	min-height: 100%;
 	width: 200px;
-	position: fixed;
-	top: 0px;
-	right: 0px;
-	
-	margin-top: 0;
-	margin-bottom: 0;
-	
+	margin-right: -201px;
+	float: right;
+
 	background-color: #3D3D3D;
 
 	border-left-width: 1px;
@@ -70,6 +76,9 @@ a {
 }
 
 #sidebar #logo {
+	position: absolute;
+	top: 0;
+	width: 100%;
 	height: 120px;
 }
 
@@ -77,6 +86,11 @@ a {
 	margin:  auto;
 	padding-top: 35px;
 	display: block;
+}
+
+#sidebar #sidemenu{
+	min-height: 400px;
+	margin-top: 120px;
 }
 
 #sidebar span.menutitle {
@@ -127,11 +141,18 @@ a {
 	text-align: right;
 }
 
-#sidebar #sidefooter{
+#sidebar #sidefooter{	
 	position: absolute;
 	bottom: 0px;
-	
 	width: 100%;
+	height: 140px;
+}
+
+#sidebar #sidefooter #sidefooterwrapper{
+	position: absolute;
+	width: 100%;
+	bottom: 0;
+	left: 0;
 }
 
 #sidebar #sidefooter span.sidefooter{
