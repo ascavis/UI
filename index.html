@@ -26,57 +26,85 @@
 				<div id="sidemenu">
 					<span class="menutitle">Orbit</span>			
 					<div class="menucontainer">
-						<select id="orbitSelection" name="orbitSelection">
-						  <option value="0" selected="true">Undefined / Main Belt</option>
-						  <option value="1">Atiras</option>
-						  <option value="2">Atens</option>
-						  <option value="3">Apollo</option>
-						  <option value="4">Amors</option>
-						  <option value="5">Mars Crossers</option>
-						  <option value="6">Hungarias</option>
-						  <option value="7">Phocaeas</option>
-						  <option value="8">Hildas</option>
-						  <option value="9">Jupiter Trojans</option>
-						  <option value="10">Distant Objects</option>
-						  <option value="-1">Select All</option>
-						</select>
+						<fieldset id="orbitSelection" name="orbitSelection">
+						    <input type="radio" id="orbitAll" class="toggle first" checked="true" name="orbitSelection" value="-1">
+						    <label for="orbitAll">All</label>
+						    <input type="radio" id="orbit0" class="toggle" name="orbitSelection" value="0">
+						    <label for="orbit0">Main Belt</label>
+						    <input type="radio" id="orbit1" class="toggle" name="orbitSelection" value="1">
+						    <label for="orbit1">Atiras</label>
+						    <input type="radio" id="orbit2" class="toggle" name="orbitSelection" value="2">
+						    <label for="orbit2">Atens</label>
+						    <input type="radio" id="orbit3" class="toggle" name="orbitSelection" value="3">
+						    <label for="orbit3">Apollo</label>
+						    <input type="radio" id="orbit4" class="toggle" name="orbitSelection" value="4">
+						    <label for="orbit4">Amors</label>
+						    <input type="radio" id="orbit5" class="toggle" name="orbitSelection" value="5">
+						    <label for="orbit5">Mars Crossers</label>
+						    <input type="radio" id="orbit6" class="toggle" name="orbitSelection" value="6">
+						    <label for="orbit6">Hungarias</label>
+						    <input type="radio" id="orbit7" class="toggle" name="orbitSelection" value="7">
+						    <label for="orbit7">Phocaeas</label>
+						    <input type="radio" id="orbit8" class="toggle" name="orbitSelection" value="8">
+						    <label for="orbit8">Hildas</label>
+						    <input type="radio" id="orbit9" class="toggle" name="orbitSelection" value="9">
+						    <label for="orbit9">Jupiter Trojans</label>
+						    <input type="radio" id="orbit10" class="toggle last" name="orbitSelection" value="10">
+						    <label for="orbit10">Distant Objects</label>				    
+						 </fieldset>
 					</div>
 					<span class="menutitle">Taxonomy Class</span>			
 					<div class="menucontainer">
-						<select id="taxonomyClassSelection" name="taxonomyClassSelection">
-							<optgroup label="C Group (dark carbonaceous objects)">
-						  		<option value="B">B Type</option>
-						 		<option value="F">F Type</option>
-						  		<option value="G">G Type</option>
-						  		<option value="C">C Type</option>
-						  		<option value="S">S Type</option>
-						  	</optgroup>
-						  	<optgroup label="X Group">
-							  	<option value="M">M Type</option>
-							  	<option value="E">E Type</option>
-							  	<option value="P">P Type</option>
-						  	</optgroup>
-						  	<optgroup label="Small Groups">
-							  	<option value="A">A Type</option>
-								<option value="T">T Type</option>
-								<option value="Q">Q Type</option>
-								<option value="R">R Type</option>
-								<option value="V">V Type</option>
-							</optgroup>
-							<option value="all" selected="true">Select All</option>
-						</select>
+						<fieldset id="taxonomyClassSelection" name="taxonomyClassSelection">
+						    <input type="radio" id="taxonomyAll" class="toggle first" checked="true" name="taxonomyClassSelection" value="all">
+						    <label for="taxonomyAll">All</label>
+						    
+						    <span class="groupTitle">C Group (dark carbonaceous objects)</span>
+						    <input type="radio" id="taxonomyB" class="toggle" name="taxonomyClassSelection" value="B">
+						    <label for="taxonomyB">B</label>
+						    <input type="radio" id="taxonomyF" class="toggle" name="taxonomyClassSelection" value="F">
+						    <label for="taxonomyF">F</label>
+						    <input type="radio" id="taxonomyG" class="toggle" name="taxonomyClassSelection" value="G">
+						    <label for="taxonomyG">G</label>
+						    <input type="radio" id="taxonomyC" class="toggle" name="taxonomyClassSelection" value="C">
+						    <label for="taxonomyC">C</label>
+						    <input type="radio" id="taxonomyS" class="toggle" name="taxonomyClassSelection" value="S">
+						    <label for="taxonomyS">S</label>  
+						    
+						    <span class="groupTitle">X Group</span>
+						    <input type="radio" id="taxonomyM" class="toggle" name="taxonomyClassSelection" value="M">
+						    <label for="taxonomyM">M</label>
+						    <input type="radio" id="taxonomyE" class="toggle" name="taxonomyClassSelection" value="E">
+						    <label for="taxonomyE">E</label>
+						    <input type="radio" id="taxonomyP" class="toggle" name="taxonomyClassSelection" value="P">
+						    <label for="taxonomyP">P</label>
+						    
+						    <span class="groupTitle">Small Groups</span>
+						    <input type="radio" id="taxonomyA" class="toggle" name="taxonomyClassSelection" value="A">
+						    <label for="taxonomyA">A</label>
+						    <input type="radio" id="taxonomyT" class="toggle" name="taxonomyClassSelection" value="T">
+						    <label for="taxonomyT">T</label>
+						    <input type="radio" id="taxonomyQ" class="toggle" name="taxonomyClassSelection" value="Q">
+						    <label for="taxonomyQ">Q</label>
+						    <input type="radio" id="taxonomyR" class="toggle" name="taxonomyClassSelection" value="R">
+						    <label for="taxonomyR">R</label>
+						    <input type="radio" id="taxonomyV" class="toggle" name="taxonomyClassSelection" value="V">
+						    <label for="taxonomyV">V</label>  
+						 </fieldset>
 					</div>
 					<span class="menutitle">Magnitude</span>
 					<div class="menucontainer">
 						<div id="magnitude-range-slider" class="slider"></div>
-						<span id="magnitude-range-min" class="left">-5</span>
-						<span id="magnitude-range-max" class="right">50</span>
+						<span id="magnitude-range-min" class="sliderLeft">-5</span>
+						<span id="magnitude-range-max" class="sliderRight">50</span>
+						<span class="clear" />
 					</div>							
 					<span class="menutitle">Diameter</span>
 					<div class="menucontainer">
 						<div id="diameter-range-slider" class="slider"></div>
-						<span id="diameter-range-min" class="left">0.1</span>
-						<span id="diameter-range-max" class="right">550</span>
+						<span id="diameter-range-min" class="sliderLeft">0.1</span>
+						<span id="diameter-range-max" class="sliderRight">550</span>
+						<span class="clear" />						
 					</div>					
 				</div>
 				<div id="sidefooter">
@@ -130,19 +158,18 @@
 			           	filterProperties.maxDiameter = ui.values[ 1 ];
 			           	ASCAVIS.Model.Asteroids.setFilterProperties(filterProperties);
 			           }
-			         });
-			     
+			         });		     
 
 			     
 			     $('#orbitSelection').on('change', function() {
 			       var filterProperties = ASCAVIS.Model.Asteroids.getFilterProperties();
-			       filterProperties.orbitType = this.value;
-			       asteroids.setFilterProperties(filterProperties);
+			       filterProperties.orbitType = $('input[name=orbitSelection]:checked').val();
+			       ASCAVIS.Model.Asteroids.setFilterProperties(filterProperties);
 			     });
 			     
 			     $('#taxonomyClassSelection').on('change', function() {
 			       var filterProperties = ASCAVIS.Model.Asteroids.getFilterProperties();
-			       filterProperties.taxonomyClass = this.value;
+			       filterProperties.taxonomyClass = $('input[name=taxonomyClassSelection]:checked').val();
 			       ASCAVIS.Model.Asteroids.setFilterProperties(filterProperties);
 			     });
 			     
