@@ -5,7 +5,7 @@ ASCAVIS.Renderer = (function(){
 	
 	var drawArray = new Array();
 	
-	var asteroidScaleFactor = 50;
+	var asteroidScaleFactor = 25;
 	var planetScaleFactor = 0.03;
 	var sunScaleFactor = 0.0005;
 	var distanceScaleFactor = 1e-5;
@@ -20,7 +20,7 @@ ASCAVIS.Renderer = (function(){
 	
 	    var curve = new OrbitalCurve(planet.orbitalElements);
 		var orbitGeometry = new THREE.Geometry();
-		orbitGeometry.vertices = curve.getPoints(50);
+		orbitGeometry.vertices = curve.getPoints(100);
 		
 		orbitGeometry.vertices.forEach(function(vertice){
 			vertice.x = vertice.x * distanceScaleFactor;
@@ -28,7 +28,7 @@ ASCAVIS.Renderer = (function(){
 			vertice.z = vertice.z * distanceScaleFactor;
 		});
 		
-		var material = new THREE.LineBasicMaterial({ color : planet.color });
+		var material = new THREE.LineBasicMaterial({ color : planet.color, linewidth: 2 });
 		var orbit = new THREE.Line(orbitGeometry, material);
 		
 		this.planet = planet;
@@ -50,14 +50,14 @@ ASCAVIS.Renderer = (function(){
 		    var curve = new OrbitalCurve(asteroid.orbitalElements);
 			var orbitGeometry = new THREE.Geometry();
 			
-			orbitGeometry.vertices = curve.getPoints(50);
+			orbitGeometry.vertices = curve.getPoints(100);
 			orbitGeometry.vertices.forEach(function(vertice){
 				vertice.x = vertice.x * distanceScaleFactor;
 				vertice.y = vertice.y * distanceScaleFactor;
 				vertice.z = vertice.z * distanceScaleFactor;
 			});
 						
-			var material = new THREE.LineBasicMaterial({ color : 0xffffff });
+			var material = new THREE.LineBasicMaterial({ color : 0xffffff, linewidth: 0.5  });
 			var orbit = new THREE.Line(orbitGeometry, material);
 			
 			this.asteroid = asteroid;
@@ -73,7 +73,7 @@ ASCAVIS.Renderer = (function(){
 	function setUpScene() {
 		var container = document.getElementById("main");					
 		
-		renderer = new THREE.WebGLRenderer({ alpha: true });
+		renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
 		renderer.setSize( container.offsetWidth, container.offsetHeight );
 		container.appendChild(renderer.domElement);
 			
