@@ -8,12 +8,10 @@
 	    <script type="text/javascript" src="http://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
 		<script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/three.js/r71/three.min.js"></script>
 		<script type="text/javascript" src="js/libs/OrbitControls.js"></script>
-		<!--<script type="text/javascript" src="js/libs/Projector.js"></script>-->
+		<script type="text/javascript" src="js/libs/Projector.js"></script>
 		<script type="text/javascript" src="js/libs/tween.min.js"></script>
 		<script type="text/javascript" src="js/model.js"></script>
-		<script type="text/javascript" src="js/data.js"></script>
-		<script type="text/javascript" src="js/render.js"></script>
-		<script type="text/javascript" src="js/filter.js"></script>
+		<script type="text/javascript" src="js/renderer.js"></script>
 	</head>
 	<body>
 		<!--<div id="slider-range" style="position: fixed; bottom: 20px; left: 50px; z-index: 10;"></div>-->
@@ -91,28 +89,29 @@
 			<div id="clear" />
 		</div>
 		
+		<div id="popover"></div>
+		
 		<script>
-			setUpScene();
-			filterSetUp();
+			ASCAVIS.Renderer.setUpScene();
 			window.setInterval(
 			    function() {
-			        updateScene();
-			        render();
+			        ASCAVIS.Renderer.updateScene();
+			        ASCAVIS.Renderer.render();
 			    }, 1000);
 			    
 			$("#magnitude-range-slider").slider({
 			          range: true,
 			          min: -5,
 			          max: 50,
-			          values: [ asteroids.getFilterProperties().minAbsoluteMagnitude, asteroids.getFilterProperties().maxAbsoluteMagnitude ],
+			          values: [ ASCAVIS.Model.Asteroids.getFilterProperties().minAbsoluteMagnitude, ASCAVIS.Model.Asteroids.getFilterProperties().maxAbsoluteMagnitude ],
 			          slide: function( event, ui ) {
 			          	$('#magnitude-range-min').text(ui.values[ 0 ]);
 			          	$('#magnitude-range-max').text(ui.values[ 1 ]);
 			          	
-			          	var filterProperties = asteroids.getFilterProperties();
+			          	var filterProperties = ASCAVIS.Model.Asteroids.getFilterProperties();
 			          	filterProperties.minAbsoluteMagnitude = ui.values[ 0 ];
 			          	filterProperties.maxAbsoluteMagnitude = ui.values[ 1 ];
-			          	asteroids.setFilterProperties(filterProperties);
+			          	ASCAVIS.Model.Asteroids.setFilterProperties(filterProperties);
 			          }
 			        });
 
@@ -121,38 +120,103 @@
 			           range: true,
 			           min: 0.1,
 			           max: 550,
-			           values: [ asteroids.getFilterProperties().minDiameter, asteroids.getFilterProperties().maxDiameter ],
+			           values: [ ASCAVIS.Model.Asteroids.getFilterProperties().minDiameter, ASCAVIS.Model.Asteroids.getFilterProperties().maxDiameter ],
 			           slide: function( event, ui ) {
 			           	$('#diameter-range-min').text(ui.values[ 0 ]);
 			           	$('#diameter-range-max').text(ui.values[ 1 ]);
 			           	
-			           	var filterProperties = asteroids.getFilterProperties();
+			           	var filterProperties = ASCAVIS.Model.Asteroids.getFilterProperties();
 			           	filterProperties.minDiameter = ui.values[ 0 ];
 			           	filterProperties.maxDiameter = ui.values[ 1 ];
-			           	asteroids.setFilterProperties(filterProperties);
+			           	ASCAVIS.Model.Asteroids.setFilterProperties(filterProperties);
 			           }
 			         });
 			     
 
 			     
 			     $('#orbitSelection').on('change', function() {
-			       var filterProperties = asteroids.getFilterProperties();
+			       var filterProperties = ASCAVIS.Model.Asteroids.getFilterProperties();
 			       filterProperties.orbitType = this.value;
 			       asteroids.setFilterProperties(filterProperties);
 			     });
 			     
 			     $('#taxonomyClassSelection').on('change', function() {
-			       var filterProperties = asteroids.getFilterProperties();
+			       var filterProperties = ASCAVIS.Model.Asteroids.getFilterProperties();
 			       filterProperties.taxonomyClass = this.value;
-			       asteroids.setFilterProperties(filterProperties);
+			       ASCAVIS.Model.Asteroids.setFilterProperties(filterProperties);
 			     });
 			     
 			     $(document).ready(function(){
-			     		$('#magnitude-range-min').text(asteroids.getFilterProperties().minAbsoluteMagnitude);
-			     		$('#magnitude-range-max').text(asteroids.getFilterProperties().maxAbsoluteMagnitude);
-		     			$('#diameter-range-min').text(asteroids.getFilterProperties().minDiameter);
-		     			$('#diameter-range-max').text(asteroids.getFilterProperties().maxDiameter);
+			     		$('#magnitude-range-min').text(ASCAVIS.Model.Asteroids.getFilterProperties().minAbsoluteMagnitude);
+			     		$('#magnitude-range-max').text(ASCAVIS.Model.Asteroids.getFilterProperties().maxAbsoluteMagnitude);
+		     			$('#diameter-range-min').text(ASCAVIS.Model.Asteroids.getFilterProperties().minDiameter);
+		     			$('#diameter-range-max').text(ASCAVIS.Model.Asteroids.getFilterProperties().maxDiameter);
 			     });
+			     
+			     $(document).mousedown(function(event){
+			     	x = ( event.clientX / ASCAVIS.Renderer.getCanvasWidth() ) * 2 - 1;
+			     	y = - ( event.clientY / ASCAVIS.Renderer.getCanvasHeight() ) * 2 + 1;
+			     	
+			     	var aR = ASCAVIS.Renderer.objectFrom2DCoordinates(x,y);
+			     	
+			     	if(aR != null){    		
+			     		displayAsteroidData(aR.asteroid.id);
+			     	}
+			     });
+			     
+			     function displayAsteroidData(id){
+			     	var jqxhr = $.getJSON( "/mpc/" + id, function() {
+			     	  console.log( "success" );
+			     	})
+			     	  .done(function(data) {
+			     	  	$("#popover").html(
+			     	  		"<div id=\"popoverheader\">\n" +
+			     	  			"<span id=\"popovertitle\">" + data.name + "</span>\n" +
+			     	  			"<span id=\"popversubtitle\">Taxonomy class " + data.taxonomy_class + "</span>\n" +
+			     	  			"<div id=\"popoverclose\"><a id=\"closelink\"><img id=\"popovercloseimage\" src=\"img/Close_Icon.png\"></a></div>\n" +
+			     	  		"</div>\n" +
+			     	  		"<div id=\"popovermenu\">\n" +
+			     	  			"<div class=\"popovermenuitem first\">\n" +
+			     	  				"<span class=\"popovermenumain\">"+ data.observations + "</span>\n" +
+			     	  				"<span class=\"popoversubmenumain\">Observations</span>	\n" +
+			     	  			"</div>\n" +
+			     	  			"<div class=\"popovermenuitem\">\n" +
+			     	  				"<span class=\"popovermenumain\">" + data.inclination +"</span>\n" +
+			     	  				"<span class=\"popoversubmenumain\">Inclination</span>	\n" +
+			     	  			"</div>\n" +
+			     	  			"<div class=\"popovermenuitem\">\n" +
+			     	  				"<span class=\"popovermenumain\">" + data.semimajor_axis + " AU</span>\n" +
+			     	  				"<span class=\"popoversubmenumain\">Semi-major axis</span>	\n" +
+			     	  			"</div>\n" +
+			     	  			"<div class=\"popovermenuitem last\">\n" +
+			     	  				"<span class=\"popovermenumain\">" + data.albedo +" </span>\n" +
+			     	  				"<span class=\"popoversubmenumain\">Albedo</span>\n" +
+			     	  			"</div>\n" +
+			     	  			"<div class=\"popovermenuitem last\">\n" +
+			     	  					"<span class=\"popovermenumain\">" + data.period +" years</span>\n" +
+			     	  					"<span class=\"popoversubmenumain\">Period</span>\n" +
+			     	  				"</div>\n" +
+			     	  		"</div>\n" +
+			     	  		"<div id=\"popoverfooter\">\n" +
+			     	  			"<span>Available Images &raquo;</span>\n" +
+			     	  		"</div>"
+			     	  	);
+			     	  	$("#popover").css('visibility','visible');
+			     	  	$("#closelink").click(function() {
+			     	  		$("#popover").css('visibility','hidden');
+			     	  	});
+			     	  })
+			     	  .fail(function() {
+			     	    console.log( "error" );
+			     	  })
+			     	  .always(function() {
+			     	    console.log( "complete" );
+			     	  });
+			     	  
+			     	jqxhr.complete(function() {
+			     	  console.log( "second complete" );
+			     	});
+			     }
 		</script>		
 	</body>
 </html>
