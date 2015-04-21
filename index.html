@@ -102,8 +102,8 @@
 					<span class="menutitle">Diameter</span>
 					<div class="menucontainer">
 						<div id="diameter-range-slider" class="slider"></div>
-						<span id="diameter-range-min" class="sliderLeft">0.1</span>
-						<span id="diameter-range-max" class="sliderRight">550</span>
+						<span id="diameter-range-min" class="sliderLeft">0.1 km</span>
+						<span id="diameter-range-max" class="sliderRight">550 km</span>
 						<span class="clear" />						
 					</div>					
 				</div>
@@ -150,8 +150,8 @@
 			           max: 550,
 			           values: [ ASCAVIS.Model.Asteroids.getFilterProperties().minDiameter, ASCAVIS.Model.Asteroids.getFilterProperties().maxDiameter ],
 			           slide: function( event, ui ) {
-			           	$('#diameter-range-min').text(ui.values[ 0 ]);
-			           	$('#diameter-range-max').text(ui.values[ 1 ]);
+			           	$('#diameter-range-min').text(ui.values[ 0 ] + " km");
+			           	$('#diameter-range-max').text(ui.values[ 1 ] + " km");
 			           	
 			           	var filterProperties = ASCAVIS.Model.Asteroids.getFilterProperties();
 			           	filterProperties.minDiameter = ui.values[ 0 ];
@@ -176,8 +176,8 @@
 			     $(document).ready(function(){
 			     		$('#magnitude-range-min').text(ASCAVIS.Model.Asteroids.getFilterProperties().minAbsoluteMagnitude);
 			     		$('#magnitude-range-max').text(ASCAVIS.Model.Asteroids.getFilterProperties().maxAbsoluteMagnitude);
-		     			$('#diameter-range-min').text(ASCAVIS.Model.Asteroids.getFilterProperties().minDiameter);
-		     			$('#diameter-range-max').text(ASCAVIS.Model.Asteroids.getFilterProperties().maxDiameter);
+		     			$('#diameter-range-min').text(ASCAVIS.Model.Asteroids.getFilterProperties().minDiameter + " km");
+		     			$('#diameter-range-max').text(ASCAVIS.Model.Asteroids.getFilterProperties().maxDiameter + " km");
 			     });
 			     
 			     $(document).mousedown(function(event){
