@@ -95,6 +95,30 @@ ASCAVIS.Model = (function(){
 			this.orbitalElements = orbitalElements;
 		};	
 		
+		var mercuryOrbitalElements = new orbitalElements();
+		mercuryOrbitalElements.semiMajorAxis = 0.387098 * AU;
+		mercuryOrbitalElements.orbitalPeriod = 0.240846;
+		mercuryOrbitalElements.eccentricity = 0.205630;
+		mercuryOrbitalElements.referenceDate = new Date("January 1, 2000 12:00:00 UTC");
+		mercuryOrbitalElements.meanAnomaly = 174.796 / 180.0 * Math.PI;
+		mercuryOrbitalElements.ascendingNode = -48.331 / 180.0 * Math.PI;
+		mercuryOrbitalElements.perihelion =  29.124 / 180.0 * Math.PI;
+		mercuryOrbitalElements.inclination = 7.005 / 180.0 * Math.PI;
+		 
+		var mercury = new planet('Mercury', 2439.7, 0xdadada, mercuryOrbitalElements);
+		
+		var venusOrbitalElements = new orbitalElements();
+		venusOrbitalElements.semiMajorAxis = 0.728213 * AU;
+		venusOrbitalElements.orbitalPeriod = 0.615198;
+		venusOrbitalElements.eccentricity = 0.0067;
+		venusOrbitalElements.referenceDate = new Date("January 1, 2000 12:00:00 UTC");
+		venusOrbitalElements.meanAnomaly = 50.115 / 180.0 * Math.PI;
+		venusOrbitalElements.ascendingNode = 76.678 / 180.0 * Math.PI;
+		venusOrbitalElements.perihelion =  55.186 / 180.0 * Math.PI;
+		venusOrbitalElements.inclination = 3.39458 / 180.0 * Math.PI;
+		 
+		var venus = new planet('Venus', 6051.8, 0xfff15f, venusOrbitalElements);
+
 		var earthOrbitalElements = new orbitalElements();
 		earthOrbitalElements.semiMajorAxis = 1 * AU;
 		earthOrbitalElements.orbitalPeriod = 1;
@@ -105,9 +129,8 @@ ASCAVIS.Model = (function(){
 		earthOrbitalElements.perihelion =  102.94719 / 180.0 * Math.PI;
 		earthOrbitalElements.inclination = 0.00005 / 180.0 * Math.PI;
 		 
-		var earth = new planet('earth', 6378, 0x1fd8ff, earthOrbitalElements);
-		
-		
+		var earth = new planet('Earth', 6378, 0x1fd8ff, earthOrbitalElements);
+				
 		var marsOrbitalElements = new orbitalElements();
 		marsOrbitalElements.semiMajorAxis = 1.666 * AU;
 		marsOrbitalElements.orbitalPeriod = 1.8808;
@@ -118,11 +141,59 @@ ASCAVIS.Model = (function(){
 		marsOrbitalElements.perihelion =  286.537 / 180.0 * Math.PI;
 		marsOrbitalElements.inclination = 5.65 / 180.0 * Math.PI;
 		 
-		var mars = new planet('mars', 3396, 0xff8040, marsOrbitalElements);
+		var mars = new planet('Mars', 3396, 0xff8040, marsOrbitalElements);
+		
+		var jupiterOrbitalElements = new orbitalElements();
+		jupiterOrbitalElements.semiMajorAxis = 5.204267 * AU;
+		jupiterOrbitalElements.orbitalPeriod = 11.8618;
+		jupiterOrbitalElements.eccentricity = 0.048775;
+		jupiterOrbitalElements.referenceDate = new Date("January 1, 2000 12:00:00 UTC");
+		jupiterOrbitalElements.meanAnomaly = 18.818 / 180.0 * Math.PI;
+		jupiterOrbitalElements.ascendingNode = 100.492 / 180.0 * Math.PI;
+		jupiterOrbitalElements.perihelion =  275.066 / 180.0 * Math.PI;
+		jupiterOrbitalElements.inclination = 1.305 / 180.0 * Math.PI;
+		 
+		var jupiter = new planet('Jupiter', 66854, 0xf9b256, jupiterOrbitalElements);
+		
+		var saturnOrbitalElements = new orbitalElements();
+		saturnOrbitalElements.semiMajorAxis = 9.5820172 * AU;
+		saturnOrbitalElements.orbitalPeriod = 29.4571;
+		saturnOrbitalElements.eccentricity = 0.055723219;
+		saturnOrbitalElements.referenceDate = new Date("January 1, 2000 12:00:00 UTC");
+		saturnOrbitalElements.meanAnomaly = 320.346750 / 180.0 * Math.PI;
+		saturnOrbitalElements.ascendingNode = 113.642811 / 180.0 * Math.PI;
+		saturnOrbitalElements.perihelion =  336.013862 / 180.0 * Math.PI;
+		saturnOrbitalElements.inclination = 2.485240 / 180.0 * Math.PI;
+		 
+		var saturn = new planet('Saturn', 60268, 0xfff59b, saturnOrbitalElements);
+		
+		var uranusOrbitalElements = new orbitalElements();
+		uranusOrbitalElements.semiMajorAxis = 19.189253 * AU;
+		uranusOrbitalElements.orbitalPeriod = 84.016846;
+		uranusOrbitalElements.eccentricity = 0.047220087;
+		uranusOrbitalElements.referenceDate = new Date("January 1, 2000 12:00:00 UTC");
+		uranusOrbitalElements.meanAnomaly = 142.238600 / 180.0 * Math.PI;
+		uranusOrbitalElements.ascendingNode = 73.999342 / 180.0 * Math.PI;
+		uranusOrbitalElements.perihelion =  96.998857 / 180.0 * Math.PI;
+		uranusOrbitalElements.inclination = 0.772556 / 180.0 * Math.PI;
+		 
+		var uranus = new planet('Uranus', 24973, 0x83d0f5, uranusOrbitalElements);
+		
+		var neptuneOrbitalElements = new orbitalElements();
+		neptuneOrbitalElements.semiMajorAxis = 30.331855 * AU;
+		neptuneOrbitalElements.orbitalPeriod = 164.8;
+		neptuneOrbitalElements.eccentricity = 0.00867797;
+		neptuneOrbitalElements.referenceDate = new Date("January 1, 2000 12:00:00 UTC");
+		neptuneOrbitalElements.meanAnomaly = 259.885588 / 180.0 * Math.PI;
+		neptuneOrbitalElements.ascendingNode = 131.782974 / 180.0 * Math.PI;
+		neptuneOrbitalElements.perihelion =  273.219414 / 180.0 * Math.PI;
+		neptuneOrbitalElements.inclination = 1.767975 / 180.0 * Math.PI;
+		 
+		var neptune = new planet('Neptune', 24764, 0x0033b4, neptuneOrbitalElements);
 		
 		return {
 			getPlanets : function(){
-				return [earth, mars];
+				return [mercury, venus, earth, mars, jupiter, saturn, uranus, neptune];
 			}
 		}
 	}());

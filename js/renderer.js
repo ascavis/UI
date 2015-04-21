@@ -6,14 +6,14 @@ ASCAVIS.Renderer = (function(){
 	var drawArray = new Array();
 	
 	var asteroidScaleFactor = 25;
-	var planetScaleFactor = 0.03;
+	var planetScaleFactor = 0.005;
 	var sunScaleFactor = 0.0005;
 	var distanceScaleFactor = 1e-5;
 	
 	var planetRenderModels = [];
 	var planetRenderModel = function(planet){
 	    // NOTE: radius is scaled up extremely for debugging purposes
-		var geometry = new THREE.SphereGeometry( planet.radius * planetScaleFactor, 16, 16 );
+		var geometry = new THREE.SphereGeometry( planet.radius * planetScaleFactor, 32, 32 );
 		var material  = new THREE.MeshBasicMaterial( { color: planet.color, overdraw : true })
 		material.specular  = new THREE.Color(planet.color);
 		var mesh = new THREE.Mesh( geometry, material );	
@@ -103,12 +103,15 @@ ASCAVIS.Renderer = (function(){
 	}
 	
 	function setUpSun(){
-		var geometry = new THREE.SphereGeometry( 695800 * sunScaleFactor , 16, 16 );
-		var material  = new THREE.MeshBasicMaterial( { color: 0xffffff });
+		var geometry = new THREE.SphereGeometry( 695800 * sunScaleFactor, 32, 32 );
+		var material  = new THREE.MeshBasicMaterial( { color: 0xffffff});
 		
 		material.specular  = new THREE.Color('yellow');
 		mesh = new THREE.Mesh( geometry, material );
 		mesh.position.set(0,0,0);
+		
+		light = new THREE.PointLight(0xFFFFFF);
+		scene.add(light);		
 		scene.add(mesh);
 	}
 	
@@ -140,7 +143,7 @@ ASCAVIS.Renderer = (function(){
 		}
 
 		asteroids = ASCAVIS.Model.Asteroids.getAsteroids();	
-		if(asteroids.length > 20){
+//		if(asteroids.length > 20){
 			asteroids.forEach(
 				function(ast){
 					var nu = ASCAVIS.Model.trueAnomaly(ast.orbitalElements, currentdate);
@@ -161,28 +164,28 @@ ASCAVIS.Renderer = (function(){
 					}
 				}
 			);
-		}
-		else{					
-			asteroids.forEach(
-				function(ast){
-					var nu = ASCAVIS.Model.trueAnomaly(ast.orbitalElements, currentdate);
-					var coordinates = ASCAVIS.Model.calculateCartesianCoordinates(ast.orbitalElements, nu);	
-										
-					if(ast.id in asteroidRenderMap){
-						scene.remove(asteroidRenderMap[ast.id].mesh);
-						scene.remove(asteroidRenderMap[ast.id].orbitMesh);							
-						delete asteroidRenderMap[ast.id];
-					}
-
-					var rA = new asteroidRenderModel(ast, 1, 0x1FD8FF);
-					rA.mesh.position.set(coordinates.x * distanceScaleFactor, coordinates.y * distanceScaleFactor, coordinates.z * distanceScaleFactor);
-					rA.updateMarker = true;
-					asteroidRenderMap[ast.id] = rA;
-					scene.add(rA.mesh);
-					scene.add(rA.orbitMesh);
-				}
-			);
-		}
+//		}
+//		else{					
+//			asteroids.forEach(
+//				function(ast){
+//					var nu = ASCAVIS.Model.trueAnomaly(ast.orbitalElements, currentdate);
+//					var coordinates = ASCAVIS.Model.calculateCartesianCoordinates(ast.orbitalElements, nu);	
+//										
+//					if(ast.id in asteroidRenderMap){
+//						scene.remove(asteroidRenderMap[ast.id].mesh);
+//						scene.remove(asteroidRenderMap[ast.id].orbitMesh);							
+//						delete asteroidRenderMap[ast.id];
+//					}
+//
+//					var rA = new asteroidRenderModel(ast, 1, 0x1FD8FF);
+//					rA.mesh.position.set(coordinates.x * distanceScaleFactor, coordinates.y * distanceScaleFactor, coordinates.z * distanceScaleFactor);
+//					rA.updateMarker = true;
+//					asteroidRenderMap[ast.id] = rA;
+//					scene.add(rA.mesh);
+//					scene.add(rA.orbitMesh);
+//				}
+//			);
+//		}
 		
 		for (var key in asteroidRenderMap) {
 		    if(asteroidRenderMap[key].updateMarker == false){
